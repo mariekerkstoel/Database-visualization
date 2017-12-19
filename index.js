@@ -27,3 +27,7 @@ app.get('/api/data', function(req, res) {
     res.send(movies);
   })
 })
+
+app.get('/', function(req, res) {
+  res.send("Hello World");
+})

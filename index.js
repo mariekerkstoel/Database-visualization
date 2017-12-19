@@ -23,7 +23,11 @@ sequelize
 var Movie = require('./models/movie')(sequelize);
 
 app.get('/api/data', function(req, res) {
-  Movie.all().then(function(movies) {
+  var query = req.query.groupby
+  Movie.findAll({
+    attributes: [query, [sequelize.fn('COUNT', query ), 'ratingCount']],
+    group: query
+  }).then(function(movies){
     res.send(movies);
   })
 })

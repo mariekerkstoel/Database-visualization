@@ -28,8 +28,11 @@ app.get('/', function(req, res){
 app.get('/api/data', function(req, res){
   var query = req.query.groupby
   Movie.findAll({
-    attributes: [query, [sequelize.fn('COUNT', query ), 'ratingCount']],
-    group: query
+    attributes: [query, [sequelize.fn('COUNT', query ), 'count']],
+    group: query,
+    order: [
+          [query, 'ASC']
+      ]
   }).then(function(movies){
     res.send(movies);
   })

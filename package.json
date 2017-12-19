@@ -1,0 +1,26 @@
+{
+  "name": "data-vis",
+  "version": "1.0.0",
+  "description": "",
+  "main": "index.js",
+  "scripts": {
+    "test": "echo \"Error: no test specified\" && exit 1"
+  },
+  "repository": {
+    "type": "git",
+    "url": "git+https://github.com/Yolantele/Database-visualization.git"
+  },
+  "author": "",
+  "license": "ISC",
+  "bugs": {
+    "url": "https://github.com/Yolantele/Database-visualization/issues"
+  },
+  "homepage": "https://github.com/Yolantele/Database-visualization#readme",
+  "dependencies": {
+    "express": "^4.16.2",
+    "fast-csv": "^2.4.1",
+    "pg": "^6.4.2",
+    "pg-hstore": "^2.3.2",
+    "sequelize": "^4.28.6"
+  }
+}

@@ -17,6 +17,7 @@
   },
   "homepage": "https://github.com/Yolantele/Database-visualization#readme",
   "dependencies": {
+    "ejs": "^2.5.7",
     "express": "^4.16.2",
     "fast-csv": "^2.4.1",
     "pg": "^6.4.2",

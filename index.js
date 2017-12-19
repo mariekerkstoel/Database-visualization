@@ -2,6 +2,7 @@ var express = require('express');
 var app = express();
 var Sequelize = require('sequelize');
 var csv = require('fast-csv');
+app.set('view engine', 'ejs');
 
 app.listen(3000, function() {
   console.log('server is running on port 3000')
@@ -29,5 +30,9 @@ app.get('/api/data', function(req, res) {
 })
 
 app.get('/', function(req, res) {
-  res.send("Hello World");
-})
+  res.render('index');
+});
+
+app.get('/new/page', function(req, res) {
+  res.render('newPage');
+});

@@ -62,16 +62,22 @@ function readdir(){
 };
 app.get('/api/data/tables', function(req, res){
   readdir().then(function(data) {
-    res.send((data))
+    res.send(data)
   });
 });
 
+require(`./models/movie`)(sequelize)
 
-// app.get('/api/data/tables', function(req, res){
-//   // sequelize.query('SELECT tablename FROM pg_catalog.pg_tables ORDER BY ASC').then(function(rows) {
-//   //     res.render(JSON.stringify(rows));
-//   //   });
-// });
+
+app.get('/api/data/columns', function(req, res){
+  var columnList = []
+  sequelize.query("SELECT column_name FROM information_schema.columns WHERE table_name = 'movies' AND column_name!='id'AND column_name!='updatedAt' AND column_name!='createdAt';").then(function(data) {
+    data[0].forEach(function(hash){
+     columnList.push(hash.column_name)
+    })
+  res.send(columnList)
+  });
+});
 
 app.listen(3000, function() {
   console.log('server is running on port 3000')

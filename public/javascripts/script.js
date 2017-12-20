@@ -24,7 +24,13 @@ $(document).ready(function(){
 
   $.get('api/data/tables', function(data){
     data.forEach(function(model){
-    $("#model").append(`<option value='${model.split('.')[0]}'>${model.split('.')[0]}</option>`)
+      $("#model").append(`<option value='${model.split('.')[0]}'>${model.split('.')[0]}</option>`)
+    });
+  })
+
+  $.get('api/data/columns', function(data){
+    data.forEach(function(column){
+      $("#groupby").append(`<option value='${column}'>${column}</option>`)
     });
   })
 });

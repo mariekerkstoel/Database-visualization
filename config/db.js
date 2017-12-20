@@ -15,7 +15,8 @@ db.sequelize = sequelize;
 db.movie = require('../models/movie')(sequelize, Sequelize);
 db.year = require('../models/year')(sequelize, Sequelize);
 
-//Relations
+
+// Relations
 db.movie.belongsTo(db.year);
 db.year.hasMany(db.movie);
 

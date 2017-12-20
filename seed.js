@@ -3,9 +3,31 @@ var db = require('./config/db');
 
 var years = [];
 
-db.movie.sync({force:true}).then(function() {
-  db.year.sync({force:true});
+db.year.sync({force:true}).then(function() {
+  db.movie.sync({force:true}).then(function(){
+
+
+    var year = db.year.create({year: '1000'}).then(function(year){
+      var movie = db.movie.create({
+        userRating: 1,
+        dateAdded: 'jun',
+        title: 'title',
+        url: 'url',
+        titleType: 'DataTypes.STRING',
+        imdbRating: 10.5,
+        runtimeInMins: 10,
+        genre: 'DataTypes.STRING',
+        numVotes: 10,
+        releaseDate: 'DataTypes.STRING',
+        directors: 'DataTypes.STRING',
+        yearId: year.get('id')
+      });
+      return movie;
+    }).then(function(movie){
+    })
+  })
 })
+
 
 // db.movie.sync({force: true}).then(function (){
 //   csv
@@ -51,5 +73,6 @@ csv
 .on("end", function() {
   console.log("done");
   console.log("11111111111111111111111111111111111");
-  // console.log(years.filter(onlyUnique).sort(sortNumber));
+  var uniqueYears = years.filter(onlyUnique).sort(sortNumber)
+  console.log(uniqueYears);
 })

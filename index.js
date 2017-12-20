@@ -20,15 +20,16 @@ sequelize
     console.error('Unable to connect to the database:', err);
   });
 
-var Movie = require('./models/movie')(sequelize);
-
 app.get('/', function(req, res){
   res.render('index');
 })
 
 app.get('/api/data', function(req, res){
+  console.log(req.query)
+  var model = req.query.model
   var query = req.query.groupby
-  Movie.findAll({
+  var Model = require(`./models/${model}`)(sequelize)
+    Model.findAll({
     attributes: [query, [sequelize.fn('COUNT', query ), 'count']],
     group: query,
     order: [

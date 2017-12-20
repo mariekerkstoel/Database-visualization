@@ -1,20 +1,21 @@
 $(document).ready(function(){
 
   $("#submit").click(function(){
-    var value = $("#query").val()
-    getData(value)
+    var model = $("#model").val()
+    var groupby = $("#groupby").val()
+    getData(model, groupby)
   })
 
-  function getData(query){
+  function getData(model, groupby){
     $("#count-table").html('')
-    $.get('/api/data?groupby=' + query , function(data){
+    $.get(`/api/data?model=${model}&groupby=${groupby}`, function(data){
       var increment = 0
       $("#count-table").append("<tr id='header'></tr>")
       $("#header").append("<th>UserRating</th>")
       $("#header").append("<th>Quantity</th>")
       data.forEach(function(row){
         $("#count-table").append("<tr id='row-" + increment + "'></tr>")
-        $("#row-" + increment).append("<th>" + row[query] + "</th>")
+        $("#row-" + increment).append("<th>" + row[groupby] + "</th>")
         $("#row-" + increment).append("<th>" + row.count +"</th>")
         increment++
       })

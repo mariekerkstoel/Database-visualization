@@ -28,9 +28,14 @@ $(document).ready(function(){
     });
   })
 
-  $.get('api/data/columns', function(data){
-    data.forEach(function(column){
-      $("#groupby").append(`<option value='${column}'>${column}</option>`)
-    });
-  })
+  $("#model").change(function(){
+    model = $("#model").val()
+    $('#groupby').html('')
+    $.get(`/api/data/columns?model=${model}`, function(data){
+      data.forEach(function(column){
+        $("#groupby").append(`<option value='${column}'>${column}</option>`)
+      });
+    })
+  });
+
 });

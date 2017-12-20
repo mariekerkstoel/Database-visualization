@@ -70,8 +70,9 @@ require(`./models/movie`)(sequelize)
 
 
 app.get('/api/data/columns', function(req, res){
+  var model = req.query.model
   var columnList = []
-  sequelize.query("SELECT column_name FROM information_schema.columns WHERE table_name = 'movies' AND column_name!='id'AND column_name!='updatedAt' AND column_name!='createdAt';").then(function(data) {
+  sequelize.query(`SELECT column_name FROM information_schema.columns WHERE table_name = '${model}s' AND column_name!='id'AND column_name!='updatedAt' AND column_name!='createdAt';`).then(function(data) {
     data[0].forEach(function(hash){
      columnList.push(hash.column_name)
     })

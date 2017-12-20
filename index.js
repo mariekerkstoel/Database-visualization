@@ -25,7 +25,6 @@ app.get('/', function(req, res){
 })
 
 app.get('/api/data', function(req, res){
-  console.log(req.query)
   var model = req.query.model
   var query = req.query.groupby
   var Model = require(`./models/${model}`)(sequelize)
@@ -39,6 +38,40 @@ app.get('/api/data', function(req, res){
     res.send(movies);
   })
 })
+
+var path = require('path');
+var fs = require('fs');
+var modelList = []
+
+var directoryPath = path.join(__dirname, 'models');
+
+function readdir(){
+
+  return new Promise(function(resolve, reject) {
+    fs.readdir(directoryPath, function (err, files) {
+        if (err) {
+            return console.log('Unable to scan directory: ' + err);
+        }
+        files.forEach(function (file) {
+          modelList.push(file);
+        });
+        resolve(modelList)
+    });
+
+  })
+};
+app.get('/api/data/tables', function(req, res){
+  readdir().then(function(data) {
+    res.send((data))
+  });
+});
+
+
+// app.get('/api/data/tables', function(req, res){
+//   // sequelize.query('SELECT tablename FROM pg_catalog.pg_tables ORDER BY ASC').then(function(rows) {
+//   //     res.render(JSON.stringify(rows));
+//   //   });
+// });
 
 app.listen(3000, function() {
   console.log('server is running on port 3000')

@@ -21,4 +21,10 @@ $(document).ready(function(){
       })
     });
   }
+
+  $.get('api/data/tables', function(data){
+    data.forEach(function(model){
+    $("#model").append(`<option value='${model.split('.')[0]}'>${model.split('.')[0]}</option>`)
+    });
+  })
 });

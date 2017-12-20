@@ -68,9 +68,6 @@ app.get('/api/data/tables', function(req, res){
   });
 });
 
-require(`./models/movie`)(sequelize)
-
-
 app.get('/api/data/columns', function(req, res){
   var table = pluralize(req.query.model)
   var columnList = []

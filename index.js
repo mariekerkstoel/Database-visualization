@@ -4,9 +4,8 @@ var Sequelize = require('sequelize');
 var csv = require('fast-csv');
 app.set('view engine', 'ejs');
 
-app.listen(3000, function() {
-  console.log('server is running on port 3000')
-});
+app.set('view engine', 'ejs');
+app.use(express.static('public'));
 
 var sequelize = new Sequelize('data_vis_development', null, null, {
   dialect: 'postgres'
@@ -23,16 +22,23 @@ sequelize
 
 var Movie = require('./models/movie')(sequelize);
 
-app.get('/api/data', function(req, res) {
-  Movie.all().then(function(movies) {
+app.get('/', function(req, res){
+  res.render('index');
+})
+
+app.get('/api/data', function(req, res){
+  var query = req.query.groupby
+  Movie.findAll({
+    attributes: [query, [sequelize.fn('COUNT', query ), 'count']],
+    group: query,
+    order: [
+          [query, 'ASC']
+      ]
+  }).then(function(movies){
     res.send(movies);
   })
 })
 
-app.get('/', function(req, res) {
-  res.render('index');
-});
-
-app.get('/new/page', function(req, res) {
-  res.render('newPage');
+app.listen(3000, function() {
+  console.log('server is running on port 3000')
 });

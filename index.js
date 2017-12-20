@@ -30,15 +30,21 @@ app.get('/api/data', function(req, res){
   var model = req.query.model
   var query = req.query.groupby
   var Model = require(`./models/${model}`)(sequelize)
+  if (query) {
     Model.findAll({
     attributes: [query, [sequelize.fn('COUNT', query ), 'count']],
     group: query,
     order: [
           [query, 'ASC']
       ]
-  }).then(function(movies){
-    res.send(movies);
-  })
+    }).then(function(movies){
+      res.send(movies);
+    })
+  } else {
+    Model.all().then(function(movies){
+      res.send(movies);
+    })
+  }
 })
 
 var path = require('path');

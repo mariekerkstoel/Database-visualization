@@ -18,11 +18,13 @@
   },
   "homepage": "https://github.com/Yolantele/Database-visualization#readme",
   "dependencies": {
+    "chart.js": "^2.7.1",
     "ejs": "^2.5.7",
     "express": "^4.16.2",
     "fast-csv": "^2.4.1",
     "pg": "^6.4.2",
     "pg-hstore": "^2.3.2",
+    "pluralize": "^7.0.0",
     "sequelize": "^4.28.6"
   },
   "devDependencies": {

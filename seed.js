@@ -1,42 +1,55 @@
-var Sequelize = require('sequelize');
 var csv = require('fast-csv');
+var db = require('./config/db');
 
-const sequelize = new Sequelize('data_vis_development', null, null, {
-  dialect: 'postgres'
+var years = [];
+
+db.movie.sync({force:true}).then(function() {
+  db.year.sync({force:true});
 })
 
-var Movie = require('./models/movie')(sequelize);
+// db.movie.sync({force: true}).then(function (){
+//   csv
+//   .fromPath("ratings.csv")
+//   .on("data", function(data) {
+//     db.movie.create({
+//       userRating: data[1],
+//       dateAdded: data[2],
+//       title: data[3],
+//       url: data[4],
+//       titleType: data[5],
+//       imdbRating: data[6],
+//       runtimeInMins: data[7],
+//       year: data[8],
+//       genre: data[9],
+//       numVotes: data[10],
+//       releaseDate: data[11],
+//       directors: data[12]
+//     })
+//     years.push(data[8]);
+//   })
+//   .on("end", function() {
+//     console.log("done");
+//     console.log("11111111111111111111111111111111111");
+//     console.log(years);
+//   })
+//
+// })
 
-sequelize
-  .authenticate()
-  .then(() => {
-    console.log('Connection has been established successfully.');
-  })
-  .catch(err => {
-    console.error('Unable to connect to the database:', err);
-  });
+function onlyUnique(value, index, self) {
+    return self.indexOf(value) === index;
+}
 
-Movie.sync({force: true}).then(function (){
-  csv
-  .fromPath("ratings.csv")
-  .on("data", function(data) {
-    Movie.create({
-      userRating: data[1],
-      dateAdded: data[2],
-      title: data[3],
-      url: data[4],
-      titleType: data[5],
-      imdbRating: data[6],
-      runtimeInMins: data[7],
-      year: data[8],
-      genre: data[9],
-      numVotes: data[10],
-      releaseDate: data[11],
-      directors: data[12]
-    })
-  })
-  .on("end", function() {
-    console.log("done");
-  })
+function sortNumber(a,b) {
+    return a - b;
+}
 
+csv
+.fromPath("ratings.csv")
+.on("data", function(data) {
+  years.push(data[8]);
+})
+.on("end", function() {
+  console.log("done");
+  console.log("11111111111111111111111111111111111");
+  // console.log(years.filter(onlyUnique).sort(sortNumber));
 })

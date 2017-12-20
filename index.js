@@ -43,12 +43,12 @@ app.get('/api/data', function(req, res){
 
 var path = require('path');
 var fs = require('fs');
-var modelList = []
+
 
 var directoryPath = path.join(__dirname, 'models');
 
 function readdir(){
-
+  var modelList = []
   return new Promise(function(resolve, reject) {
     fs.readdir(directoryPath, function (err, files) {
         if (err) {

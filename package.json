@@ -23,6 +23,7 @@
     "fast-csv": "^2.4.1",
     "pg": "^6.4.2",
     "pg-hstore": "^2.3.2",
+    "pluralize": "^7.0.0",
     "sequelize": "^4.28.6"
   },
   "devDependencies": {

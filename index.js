@@ -28,15 +28,22 @@ app.get('/', function(req, res){
 
 app.get('/api/data', function(req, res){
   var query = req.query.groupby
-  Movie.findAll({
-    attributes: [query, [sequelize.fn('COUNT', query ), 'count']],
-    group: query,
-    order: [
-          [query, 'ASC']
-      ]
-  }).then(function(movies){
-    res.send(movies);
-  })
+  if (query) {
+    Movie.findAll({
+      attributes: [query, [sequelize.fn('COUNT', query ), 'count']],
+      group: query,
+      order: [
+            [query, 'ASC']
+        ]
+    }).then(function(movies){
+      res.send(movies);
+    })
+  } else {
+    Movie.all().then(function(movies){
+      res.send(movies);
+    })
+  }
+
 })
 
 app.listen(3000, function() {

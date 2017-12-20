@@ -1,19 +1,24 @@
-var Sequelize = require('sequelize')
+// var Sequelize = require('sequelize')
+//
+// const sequelize = new Sequelize('data_vis_development', null, null, {
+//   dialect: 'postgres'
+// })
 
-module.exports = function(sequelize) {
+module.exports = function(sequelize, DataTypes) {
   var Movie = sequelize.define('movie', {
-    userRating: Sequelize.FLOAT,
-    dateAdded: Sequelize.STRING,
-    title: Sequelize.STRING,
-    url: Sequelize.STRING,
-    titleType: Sequelize.STRING,
-    imdbRating: Sequelize.FLOAT,
-    runtimeInMins: Sequelize.INTEGER,
-    year: Sequelize.INTEGER,
-    genre: Sequelize.STRING,
-    numVotes: Sequelize.INTEGER,
-    releaseDate: Sequelize.STRING,
-    directors: Sequelize.STRING
+    userRating: DataTypes.FLOAT,
+    dateAdded: DataTypes.STRING,
+    title: DataTypes.STRING,
+    url: DataTypes.STRING,
+    titleType: DataTypes.STRING,
+    imdbRating: DataTypes.FLOAT,
+    runtimeInMins: DataTypes.INTEGER,
+    // year: DataTypes.INTEGER,
+    genre: DataTypes.STRING,
+    numVotes: DataTypes.INTEGER,
+    releaseDate: DataTypes.STRING,
+    directors: DataTypes.STRING
   })
+
   return Movie;
 }

@@ -1,9 +1,9 @@
 $(document).ready(function(){
 
   var graphType
-
+  var model
   $("#submit").click(function(){
-    var model = $("#model").val()
+    model = $("#model").val()
     var groupby = $("#groupby").val()
     graphType = $("#typeOfGraph").val()
     console.log(111111111111)
@@ -17,6 +17,7 @@ $(document).ready(function(){
     $("#count-table").html('')
     $.get(`/api/data?model=${model}&groupby=${groupby}`, function(data){
       var increment = 0
+      $("#table").append("<table id='count-table'></table>")
       $("#count-table").append("<tr id='header'></tr>")
       $("#header").append(`<th>${groupby}</th>`)
       $("#header").append("<th>Quantity</th>")
@@ -96,5 +97,4 @@ $(document).ready(function(){
       });
     })
   });
-
 });

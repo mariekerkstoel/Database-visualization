@@ -24,11 +24,11 @@ sequelize
 
 app.get('/', function(req, res){
   res.render('index');
-})
+});
 
 app.get('/api/data', function(req, res){
-  var model = req.query.model
-  var query = req.query.groupby
+  var model = req.query.model;
+  var query = req.query.groupby;
   var Model = require(`./models/${model}`)(sequelize)
   if (query) {
     Model.findAll({
@@ -39,13 +39,13 @@ app.get('/api/data', function(req, res){
       ]
     }).then(function(movies){
       res.send(movies);
-    })
+    });
   } else {
     Model.all().then(function(movies){
       res.send(movies);
-    })
+    });
   }
-})
+});
 
 var path = require('path');
 var fs = require('fs');

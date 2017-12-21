@@ -1,8 +1,13 @@
 $(document).ready(function(){
 
+  var graphType
+
   $("#submit").click(function(){
     var model = $("#model").val()
     var groupby = $("#groupby").val()
+    graphType = $("#typeOfGraph").val()
+    console.log(111111111111)
+    console.log(graphType)
     getData(model, groupby)
   })
 
@@ -12,7 +17,6 @@ $(document).ready(function(){
     $("#count-table").html('')
     $.get(`/api/data?model=${model}&groupby=${groupby}`, function(data){
       var increment = 0
-      console.log(data)
       $("#count-table").append("<tr id='header'></tr>")
       $("#header").append(`<th>${groupby}</th>`)
       $("#header").append("<th>Quantity</th>")
@@ -62,6 +66,13 @@ $(document).ready(function(){
           }
       });
     });
+    if (graphType === 'table') {
+      $("#myChart").hide();
+      $("#count-table").show()
+    } else if (graphType === 'barchart'){
+      $("#count-table").hide();
+      $("#myChart").show();
+    }
   }
 
   function populateDropDown(){
@@ -84,4 +95,5 @@ $(document).ready(function(){
       });
     })
   });
+
 });

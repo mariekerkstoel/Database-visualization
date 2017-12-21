@@ -16,22 +16,23 @@ sequelize
     console.error('Unable to connect to the database:', err);
   });
 
-Song.sync();
-
-csv
-.fromPath("songs.csv")
-.on("data", function(data) {
-  Song.create({
-    trackName: data[1],
-    artistName: data[2],
-    albumName: data[3],
-    discNumber: data[4],
-    trackNumber: data[5],
-    trackDuration: data[6],
-    addedBy: data[7],
-    addedAt: data[8]
+Song.sync({force: true}).then(function(){
+  csv
+  .fromPath("songs.csv")
+  .on("data", function(data) {
+    Song.create({
+      trackName: data[1],
+      artistName: data[2],
+      albumName: data[3],
+      discNumber: data[4],
+      trackNumber: data[5],
+      trackDuration: data[6],
+      addedBy: data[7],
+      addedAt: data[8]
+    })
   })
-})
-.on("end", function() {
-  console.log("done");
-})
+  .on("end", function() {
+    console.log("done");
+  })
+
+});

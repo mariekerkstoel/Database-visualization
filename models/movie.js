@@ -7,11 +7,10 @@ module.exports = function(sequelize, DataType) {
     titleType: DataType.STRING,
     imdbRating: DataType.FLOAT,
     runtimeInMins: DataType.INTEGER,
-    year: DataType.INTEGER,
     genre: DataType.STRING,
     numVotes: DataType.INTEGER,
     releaseDate: DataType.STRING,
     directors: DataType.STRING
-  })
+  }, {underscored:true })
   return Movie;
 }

@@ -1,27 +1,39 @@
 var csv = require('fast-csv');
 var db = require('./config/db.js');
 
-db.movie.sync({force: true}).then(function (){
-  csv
-  .fromPath("movies.csv")
-  .on("data", function(data) {
-    db.movie.create({
-      userRating: data[1],
-      dateAdded: data[2],
-      title: data[3],
-      url: data[4],
-      titleType: data[5],
-      imdbRating: data[6],
-      runtimeInMins: data[7],
-      year: data[8],
-      genre: data[9],
-      numVotes: data[10],
-      releaseDate: data[11],
-      directors: data[12]
+db.year.sync({force: true}).then(function(){
+  db.movie.sync({force: true}).then(function (){
+    csv
+    .fromPath("movies.csv")
+    .on("data", function(movie) {
+      csv
+      .fromPath("uniqueYears.csv")
+      .on("data", function(year) {
+        if(movie[8] === year[0]) {
+          var yearRow = db.year.findOrCreate({where: {year:year[0]}}).then(function(yearRow) {
+            var movieRow = db.movie.create({
+              userRating: movie[1],
+              dateAdded: movie[2],
+              title: movie[3],
+              url: movie[4],
+              titleType: movie[5],
+              imdbRating: movie[6],
+              runtimeInMins: movie[7],
+              genre: movie[9],
+              numVotes: movie[10],
+              releaseDate: movie[11],
+              directors: movie[12],
+              year_id: yearRow[0].get('id')
+            })
+            return movieRow;
+          })
+        }
+      })
+      .on("end", function() {
+      })
+    })
+    .on("end", function() {
+      console.log("done");
     })
   })
-  .on("end", function() {
-    console.log("done");
-  })
-
 })

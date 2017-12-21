@@ -35,7 +35,7 @@ app.get('/', function(req, res){
 app.get('/api/data', function(req, res){
   var model = req.query.model
   var query = req.query.groupby
-  var Model = require(`./models/${model}`)(sequelize)
+  var Model = require(`./models/${model}`)(sequelize, Sequelize)
   if (query) {
     Model.findAll({
     attributes: [query, [sequelize.fn('COUNT', query ), 'count']],

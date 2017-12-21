@@ -1,15 +1,13 @@
-var Sequelize = require('sequelize')
-
-module.exports = function(sequelize) {
+module.exports = function(sequelize, DataType) {
   var Song = sequelize.define('song', {
-    trackName: Sequelize.STRING,
-    artistName: Sequelize.STRING,
-    albumName: Sequelize.STRING,
-    discNumber: Sequelize.STRING,
-    trackNumber: Sequelize.STRING,
-    trackDuration: Sequelize.STRING,
-    addedBy: Sequelize.STRING,
-    addedAt: Sequelize.STRING,
+    trackName: DataType.STRING,
+    artistName: DataType.STRING,
+    albumName: DataType.STRING,
+    discNumber: DataType.STRING,
+    trackNumber: DataType.STRING,
+    trackDuration: DataType.STRING,
+    addedBy: DataType.STRING,
+    addedAt: DataType.STRING,
   })
   return Song;
 }

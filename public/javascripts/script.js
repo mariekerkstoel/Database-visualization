@@ -6,8 +6,6 @@ $(document).ready(function(){
     model = $("#model").val()
     var groupby = $("#groupby").val()
     graphType = $("#typeOfGraph").val()
-    console.log(111111111111)
-    console.log(graphType)
     getData(model, groupby)
   })
 
@@ -67,14 +65,8 @@ $(document).ready(function(){
           }
       });
     });
-    if (graphType === 'table') {
-      $("#myChart").hide();
-      $("#count-table").show()
-    } else if (graphType === 'barchart'){
-      $("#count-table").hide();
-      $("#myChart").show();
-    }
-  }
+    showGraph(graphType)
+  };
 
   function populateDropDown(){
     $("#model").empty();
@@ -87,6 +79,24 @@ $(document).ready(function(){
   };
 
   populateDropDown();
+
+  function showGraph(graph){
+    var allGraphs = []
+    var classes = document.getElementsByClassName("graph");
+      for (i = 0; i < classes.length; i++){
+        allGraphs.push(classes[i].value)
+      }
+    allGraphs.forEach(function(x){
+      // if (x != graph){
+        $(`#${x}`).hide()
+      // }
+    });
+    $(`#${graph}`).show()
+  };
+
+
+
+showGraph();
 
   $("#model").change(function(){
     model = $("#model").val()

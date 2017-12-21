@@ -16,7 +16,8 @@ sequelize
     console.error('Unable to connect to the database:', err);
   });
 
-Song.sync({force: true}).then(function(){
+
+Song.sync({force:true}).then(function() {
   csv
   .fromPath("songs.csv")
   .on("data", function(data) {

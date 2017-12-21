@@ -18,7 +18,7 @@ sequelize
 
 Movie.sync({force: true}).then(function (){
   csv
-  .fromPath("ratings.csv")
+  .fromPath("movies.csv")
   .on("data", function(data) {
     Movie.create({
       userRating: data[1],

@@ -87,9 +87,7 @@ $(document).ready(function(){
         allGraphs.push(classes[i].value)
       }
     allGraphs.forEach(function(x){
-      // if (x != graph){
         $(`#${x}`).hide()
-      // }
     });
     $(`#${graph}`).show()
   };

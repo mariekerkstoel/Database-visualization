@@ -1,26 +1,11 @@
-var Sequelize = require('sequelize');
 var csv = require('fast-csv');
+var db = require('./config/db.js');
 
-const sequelize = new Sequelize('data_vis_development', null, null, {
-  dialect: 'postgres'
-})
-
-var Movie = require('./models/movie')(sequelize);
-
-sequelize
-  .authenticate()
-  .then(() => {
-    console.log('Connection has been established successfully.');
-  })
-  .catch(err => {
-    console.error('Unable to connect to the database:', err);
-  });
-
-Movie.sync({force: true}).then(function (){
+db.movie.sync({force: true}).then(function (){
   csv
   .fromPath("movies.csv")
   .on("data", function(data) {
-    Movie.create({
+    db.movie.create({
       userRating: data[1],
       dateAdded: data[2],
       title: data[3],

@@ -1,8 +1,11 @@
 $(document).ready(function(){
 
+  var graphType
+  var model
   $("#submit").click(function(){
-    var model = $("#model").val()
+    model = $("#model").val()
     var groupby = $("#groupby").val()
+    graphType = $("#typeOfGraph").val()
     getData(model, groupby)
   })
 
@@ -12,7 +15,7 @@ $(document).ready(function(){
     $("#count-table").html('')
     $.get(`/api/data?model=${model}&groupby=${groupby}`, function(data){
       var increment = 0
-      console.log(data)
+      $("#table").append("<table id='count-table'></table>")
       $("#count-table").append("<tr id='header'></tr>")
       $("#header").append(`<th>${groupby}</th>`)
       $("#header").append("<th>Quantity</th>")
@@ -62,10 +65,12 @@ $(document).ready(function(){
           }
       });
     });
-  }
+    showGraph(graphType)
+  };
 
   function populateDropDown(){
     $("#model").empty();
+    $("#model").prepend("<option value='Choose table'>Choose your table</option>");
     $.get('api/data/tables', function(data){
       data.forEach(function(model){
         $("#model").append(`<option value='${model.split('.')[0]}'>${model.split('.')[0]}</option>`)
@@ -74,6 +79,19 @@ $(document).ready(function(){
   };
 
   populateDropDown();
+
+  function showGraph(graph){
+    var allGraphs = []
+    var classes = document.getElementsByClassName("graph");
+      for (i = 0; i < classes.length; i++){
+        allGraphs.push(classes[i].value)
+      }
+    allGraphs.forEach(function(x){
+        $(`#${x}`).hide()
+    });
+    $(`#${graph}`).show()
+  };
+
 
   $("#model").change(function(){
     model = $("#model").val()

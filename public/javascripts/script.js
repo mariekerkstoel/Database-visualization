@@ -77,6 +77,7 @@ $(document).ready(function(){
 
   function populateDropDown(){
     $("#model").empty();
+    $("#model").prepend("<option value='Choose table'>Choose your table</option>");
     $.get('api/data/tables', function(data){
       data.forEach(function(model){
         $("#model").append(`<option value='${model.split('.')[0]}'>${model.split('.')[0]}</option>`)

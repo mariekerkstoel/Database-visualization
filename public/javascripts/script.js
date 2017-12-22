@@ -28,7 +28,7 @@ $(document).ready(function(){
         quantity.push(row['count'])
       })
       createCanvasElement();
-      createChart($('#myChart'), labels, quantity);
+      createChart($('#myChart'), labels, quantity, model, groupby);
     });
   }
 
@@ -37,30 +37,16 @@ $(document).ready(function(){
     $('#canvas-div').append('<canvas id="myChart" width="400" height="400"></canvas>')
   }
 
-  function createChart(element, labels, quantity) {
+  function createChart(element, labels, quantity, model, numberOf) {
     var myChart = new Chart(element, {
         type: 'bar',
         data: {
             labels: labels,
             datasets: [{
-                label: '# of Votes',
+                label: model + 's by ' + numberOf,
                 data: quantity,
-                backgroundColor: [
-                    'rgba(255, 99, 132, 0.2)',
-                    'rgba(54, 162, 235, 0.2)',
-                    'rgba(255, 206, 86, 0.2)',
-                    'rgba(75, 192, 192, 0.2)',
-                    'rgba(153, 102, 255, 0.2)',
-                    'rgba(255, 159, 64, 0.2)'
-                ],
-                borderColor: [
-                    'rgba(255,99,132,1)',
-                    'rgba(54, 162, 235, 1)',
-                    'rgba(255, 206, 86, 1)',
-                    'rgba(75, 192, 192, 1)',
-                    'rgba(153, 102, 255, 1)',
-                    'rgba(255, 159, 64, 1)'
-                ],
+                backgroundColor: backgroundColorsArray(labels),
+                borderColor: borderColorsArray(labels),
                 borderWidth: 1
             }]
         },
@@ -76,6 +62,26 @@ $(document).ready(function(){
     });
     showGraph(graphType)
   };
+
+  function randomColor() {
+    return Math.floor(Math.random() * 256);
+  }
+
+  function backgroundColorsArray(labels) {
+    var array = [];
+    for (var i=0; i<labels.length; i++) {
+      array.push(`rgba(${randomColor()}, ${randomColor()}, ${randomColor()}, 0.2)`);
+    }
+    return array;
+  }
+
+  function borderColorsArray(labels) {
+    var array = [];
+    for (var i=0; i<labels.length; i++) {
+      array.push(`rgba(${randomColor()}, ${randomColor()}, ${randomColor()}, 1)`);
+    }
+    return array;
+  }
 
   function populateDropDown(){
     $("#model").empty();

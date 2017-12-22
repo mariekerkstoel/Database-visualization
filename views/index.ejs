@@ -3,17 +3,23 @@
   <head>
     <meta charset="utf-8">
     <title>Data Visualisation</title>
+    <link href="https://maxcdn.bootstrapcdn.com/bootstrap/4.0.0-beta.2/css/bootstrap.min.css" rel="stylesheet" integrity="sha384-PsH8R72JQ3SOdhVi3uxftmaW6Vc51MKb0q5P2rRUpPvrszuE4W1povHYgTpBfshb" crossorigin="anonymous">
     <link rel="stylesheet" href="/style.css">
   </head>
   <body>
+    <h1 class='display-4' id='title'>Data Visualisation</h1>
+    <div id="drop-down-box">
+      <select id='model' class='form-control'></select>
+      <select id='groupby' class='form-control'></select>
+      <select id='typeOfGraph' class='form-control'>
+        <option value='chart type'>Choose your chart type</option>
+        <option class= 'graph' value='myChart'> Barchart</option>
+        <option class= 'graph' value='table'> Table </option>
+      </select>
+      <button class="btn btn-secondary" id='submit'>Submit</button>
+    </div>
 
-    <select id='model'></select>
-    <select id='groupby'></select>
-    <select id='typeOfGraph'>
-      <option class= 'graph' value='myChart'> Barchart</option>
-      <option class= 'graph' value='table'> Table </option>
-    </select>
-    <button id='submit'>Submit</button>
+    <hr>
 
     <div id="table">
     </div>

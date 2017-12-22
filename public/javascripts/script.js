@@ -15,12 +15,14 @@ $(document).ready(function(){
     $("#count-table").html('')
     $.get(`/api/data?model=${model}&groupby=${groupby}`, function(data){
       var increment = 0
-      $("#table").append("<table id='count-table'></table>")
-      $("#count-table").append("<tr id='header'></tr>")
+      $("#table").append("<table class='table table-striped' id='count-table'></table>")
+      $("#count-table").append("<thead id='thead-div'></thead>")
+      $("#thead-div").append("<tr id='header'></tr>")
       $("#header").append(`<th>${groupby}</th>`)
       $("#header").append("<th>Quantity</th>")
+      $("#count-table").append("<tbody id='tbody-div'></tbody>")
       data.forEach(function(row){
-        $("#count-table").append("<tr id='row-" + increment + "'></tr>")
+        $("#tbody-div").append("<tr id='row-" + increment + "'></tr>")
         $("#row-" + increment).append("<th>" + row[groupby] + "</th>")
         $("#row-" + increment).append("<th>" + row.count +"</th>")
         increment++
@@ -86,6 +88,7 @@ $(document).ready(function(){
   function populateDropDown(){
     $("#model").empty();
     $("#model").prepend("<option value='Choose table'>Choose your table</option>");
+    $("#groupby").prepend("<option value='Choose table'>Choose your attribute</option>");
     $.get('api/data/tables', function(data){
       data.forEach(function(model){
         $("#model").append(`<option value='${model.split('.')[0]}'>${model.split('.')[0]}</option>`)
@@ -111,6 +114,7 @@ $(document).ready(function(){
   $("#model").change(function(){
     model = $("#model").val()
     $('#groupby').html('')
+    $("#groupby").prepend("<option value='Choose table'>Choose your attribute</option>");
     $.get(`/api/data/columns?model=${model}`, function(data){
       data.forEach(function(column){
         $("#groupby").append(`<option value='${column}'>${column}</option>`)

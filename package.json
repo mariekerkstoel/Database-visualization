@@ -4,7 +4,7 @@
   "description": "",
   "main": "index.js",
   "scripts": {
-    "test": "echo \"Error: no test specified\" && exit 1",
+    "test": "./node_modules/.bin/mocha",
     "start": "node index.js"
   },
   "repository": {
@@ -33,6 +33,7 @@
     "grunt-webdriver": "^2.0.3",
     "mocha": "^4.0.1",
     "selenium-standalone": "^6.12.0",
+    "supertest": "^3.0.0",
     "wdio-mocha-framework": "^0.5.12",
     "wdio-selenium-standalone-service": "0.0.9",
     "wdio-spec-reporter": "^0.1.3",

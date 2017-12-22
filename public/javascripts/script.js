@@ -30,7 +30,6 @@ $(document).ready(function(){
         quantity.push(row['count'])
       })
       createCanvasElement();
-      // $('#myPieChart').prepend(`<h1 id='pie-chart-title'>${model}s by ${numberOf}</h1>`)
       createChart($('#myChart'), labels, quantity, model, groupby);
     });
   }

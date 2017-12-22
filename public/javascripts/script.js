@@ -30,6 +30,7 @@ $(document).ready(function(){
         quantity.push(row['count'])
       })
       createCanvasElement();
+      // $('#myPieChart').prepend(`<h1 id='pie-chart-title'>${model}s by ${numberOf}</h1>`)
       createChart($('#myChart'), labels, quantity, model, groupby);
     });
   }
@@ -37,9 +38,25 @@ $(document).ready(function(){
   function createCanvasElement() {
     $('#canvas-div').html('');
     $('#canvas-div').append('<canvas id="myChart" width="400" height="400"></canvas>')
+    $('#canvas-div').append('<canvas id="myPieChart" width="400" height="400"></canvas>')
   }
 
   function createChart(element, labels, quantity, model, numberOf) {
+
+    var myPieChart = new Chart($('#myPieChart'),{
+    type: 'pie',
+    data: {
+        labels: labels,
+        datasets: [{
+            label: model + 's by ' + numberOf,
+            data: quantity,
+            backgroundColor: backgroundColorsArray(labels),
+            borderColor: borderColorsArray(labels),
+            borderWidth: 1
+        }]
+    }
+
+  });
     var myChart = new Chart(element, {
         type: 'bar',
         data: {
@@ -101,6 +118,7 @@ $(document).ready(function(){
   function showGraph(graph){
     var allGraphs = []
     var classes = document.getElementsByClassName("graph");
+    console.log(classes)
       for (i = 0; i < classes.length; i++){
         allGraphs.push(classes[i].value)
       }

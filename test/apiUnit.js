@@ -29,3 +29,13 @@ describe('api returns tables information', function(){
       .end(done)
   });
 });
+
+describe('api returns all columns in the given table information', function(){
+  it('returns columns name array', function(done){
+    request(app).get("/api/data/columns?model=movie" )
+      .expect(200)
+      .expect('Content-Type', /json/)
+      .expect('["userRating","dateAdded","title","url","titleType","imdbRating","runtimeInMins","year","genre","numVotes","releaseDate","directors"]')
+      .end(done)
+  });
+});

@@ -15,12 +15,14 @@ $(document).ready(function(){
     $("#count-table").html('')
     $.get(`/api/data?model=${model}&groupby=${groupby}`, function(data){
       var increment = 0
-      $("#table").append("<table id='count-table'></table>")
-      $("#count-table").append("<tr id='header'></tr>")
+      $("#table").append("<table class='table table-striped' id='count-table'></table>")
+      $("#count-table").append("<thead id='thead-div'></thead>")
+      $("#thead-div").append("<tr id='header'></tr>")
       $("#header").append(`<th>${groupby}</th>`)
       $("#header").append("<th>Quantity</th>")
+      $("#count-table").append("<tbody id='tbody-div'></tbody>")
       data.forEach(function(row){
-        $("#count-table").append("<tr id='row-" + increment + "'></tr>")
+        $("#tbody-div").append("<tr id='row-" + increment + "'></tr>")
         $("#row-" + increment).append("<th>" + row[groupby] + "</th>")
         $("#row-" + increment).append("<th>" + row.count +"</th>")
         increment++
@@ -28,39 +30,41 @@ $(document).ready(function(){
         quantity.push(row['count'])
       })
       createCanvasElement();
-      createChart($('#myChart'), labels, quantity);
+      createChart($('#myChart'), labels, quantity, model, groupby);
     });
   }
 
   function createCanvasElement() {
     $('#canvas-div').html('');
     $('#canvas-div').append('<canvas id="myChart" width="400" height="400"></canvas>')
+    $('#canvas-div').append('<canvas id="myPieChart" width="400" height="400"></canvas>')
   }
 
-  function createChart(element, labels, quantity) {
+  function createChart(element, labels, quantity, model, numberOf) {
+
+    var myPieChart = new Chart($('#myPieChart'),{
+    type: 'pie',
+    data: {
+        labels: labels,
+        datasets: [{
+            label: model + 's by ' + numberOf,
+            data: quantity,
+            backgroundColor: backgroundColorsArray(labels),
+            borderColor: borderColorsArray(labels),
+            borderWidth: 1
+        }]
+    }
+
+  });
     var myChart = new Chart(element, {
         type: 'bar',
         data: {
             labels: labels,
             datasets: [{
-                label: '# of Votes',
+                label: model + 's by ' + numberOf,
                 data: quantity,
-                backgroundColor: [
-                    'rgba(255, 99, 132, 0.2)',
-                    'rgba(54, 162, 235, 0.2)',
-                    'rgba(255, 206, 86, 0.2)',
-                    'rgba(75, 192, 192, 0.2)',
-                    'rgba(153, 102, 255, 0.2)',
-                    'rgba(255, 159, 64, 0.2)'
-                ],
-                borderColor: [
-                    'rgba(255,99,132,1)',
-                    'rgba(54, 162, 235, 1)',
-                    'rgba(255, 206, 86, 1)',
-                    'rgba(75, 192, 192, 1)',
-                    'rgba(153, 102, 255, 1)',
-                    'rgba(255, 159, 64, 1)'
-                ],
+                backgroundColor: backgroundColorsArray(labels),
+                borderColor: borderColorsArray(labels),
                 borderWidth: 1
             }]
         },
@@ -77,9 +81,30 @@ $(document).ready(function(){
     showGraph(graphType)
   };
 
+  function randomColor() {
+    return Math.floor(Math.random() * 256);
+  }
+
+  function backgroundColorsArray(labels) {
+    var array = [];
+    for (var i=0; i<labels.length; i++) {
+      array.push(`rgba(${randomColor()}, ${randomColor()}, ${randomColor()}, 0.2)`);
+    }
+    return array;
+  }
+
+  function borderColorsArray(labels) {
+    var array = [];
+    for (var i=0; i<labels.length; i++) {
+      array.push(`rgba(${randomColor()}, ${randomColor()}, ${randomColor()}, 1)`);
+    }
+    return array;
+  }
+
   function populateDropDown(){
     $("#model").empty();
     $("#model").prepend("<option value='Choose table'>Choose your table</option>");
+    $("#groupby").prepend("<option value='Choose table'>Choose your attribute</option>");
     $.get('api/data/tables', function(data){
       data.forEach(function(model){
         $("#model").append(`<option value='${model.split('.')[0]}'>${model.split('.')[0]}</option>`)
@@ -92,6 +117,7 @@ $(document).ready(function(){
   function showGraph(graph){
     var allGraphs = []
     var classes = document.getElementsByClassName("graph");
+    console.log(classes)
       for (i = 0; i < classes.length; i++){
         allGraphs.push(classes[i].value)
       }
@@ -105,6 +131,7 @@ $(document).ready(function(){
   $("#model").change(function(){
     model = $("#model").val()
     $('#groupby').html('')
+    $("#groupby").prepend("<option value='Choose table'>Choose your attribute</option>");
     $.get(`/api/data/columns?model=${model}`, function(data){
       data.forEach(function(column){
         $("#groupby").append(`<option value='${column}'>${column}</option>`)

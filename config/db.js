@@ -1,6 +1,7 @@
 var Sequelize = require('sequelize');
 const sequelize = new Sequelize('data_vis_development', null, null, {
-  dialect: 'postgres'
+  dialect: 'postgres',
+  logging: false
 })
 
 var db = {};

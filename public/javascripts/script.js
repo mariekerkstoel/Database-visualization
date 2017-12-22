@@ -14,6 +14,7 @@ $(document).ready(function(){
     var quantity = []
     $("#count-table").html('')
     $.get(`/api/data?model=${model}&groupby=${groupby}`, function(data){
+      createCanvasElement(model, groupby);
       var increment = 0
       $("#table").append("<table class='table table-striped' id='count-table'></table>")
       $("#count-table").append("<thead id='thead-div'></thead>")
@@ -29,13 +30,13 @@ $(document).ready(function(){
         labels.push(row[groupby])
         quantity.push(row['count'])
       })
-      createCanvasElement();
       createChart($('#myChart'), labels, quantity, model, groupby);
     });
   }
 
-  function createCanvasElement() {
+  function createCanvasElement(model, numberOf) {
     $('#canvas-div').html('');
+    $('#canvas-div').append(`<h4 class='text-center' id='bar-title'>${model}s by ${numberOf}</h4>`)
     $('#canvas-div').append('<canvas id="myChart" width="400" height="400"></canvas>')
     $('#canvas-div').append('<canvas id="myPieChart" width="400" height="400"></canvas>')
   }
@@ -47,7 +48,6 @@ $(document).ready(function(){
     data: {
         labels: labels,
         datasets: [{
-            label: model + 's by ' + numberOf,
             data: quantity,
             backgroundColor: backgroundColorsArray(labels),
             borderColor: borderColorsArray(labels),
@@ -69,6 +69,9 @@ $(document).ready(function(){
             }]
         },
         options: {
+          legend: {
+            display: false
+          },
             scales: {
                 yAxes: [{
                     ticks: {
@@ -88,7 +91,7 @@ $(document).ready(function(){
   function backgroundColorsArray(labels) {
     var array = [];
     for (var i=0; i<labels.length; i++) {
-      array.push(`rgba(${randomColor()}, ${randomColor()}, ${randomColor()}, 0.2)`);
+      array.push(`rgba(${randomColor()}, ${randomColor()}, ${randomColor()}, 0.5)`);
     }
     return array;
   }

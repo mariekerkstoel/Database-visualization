@@ -1,6 +1,7 @@
 var request = require("supertest");
 var expect = require("chai").expect;
 var app = require('../app.js')
+var db = require('../config/db.js')
 
 describe('api returns movies information', function() {
   it('returns movies grouped by user rating', function(done) {
@@ -11,6 +12,7 @@ describe('api returns movies information', function() {
 {"userRating":7,"count":"251"},{"userRating":8,"count":"199"},{"userRating":9,"count":"59"},{"userRating":10,"count":"5"}]')
       .end(done)
   });
+
   it('return movies grouped by type', function(done){
     request(app).get("/api/data?model=movie&groupby=titleType")
       .expect(200)
@@ -39,3 +41,7 @@ describe('api returns all columns in the given table information', function(){
       .end(done)
   });
 });
+
+after(function() {
+  db.sequelize.close()
+})
